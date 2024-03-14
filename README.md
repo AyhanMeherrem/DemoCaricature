@@ -67,5 +67,7 @@ sample = handler(
 ).images[0]
 sample.save("Barack_Obama_caricature.jpg")
 ```
-<img src="assets/sketches/Barack_Obama.jpg" width="300"/>
-<img src="assets/results/Barack_Obama.jpg" width="300"/>
+<p float="left">
+    <img src="assets/sketches/Barack_Obama.jpg" width="300"/>
+    <img src="assets/results/Barack_Obama.jpg" width="300"/>
+</p>
