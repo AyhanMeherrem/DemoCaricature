@@ -1,0 +1,7 @@
+torch==2.2.1
+torchvision==0.17.1
+diffusers==0.27.0
+transformers==4.38.2
+accelerate==0.28.0
+Pillow==10.0.1
+gradio==3.43.1
