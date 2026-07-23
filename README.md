@@ -70,8 +70,8 @@ sample.save("Barack_Obama_caricature.jpg")
 
 ---
 
-## Summer Research Project 2026: Inference Analysis
-**Researcher:** Ayhan Meherrem (s336322, Politecnico di Torino)
+## CariScore Research: Inference Analysis
+**Researcher:** Ayhan Meherrem (Politecnico di Torino)
 **Context:** Independent evaluation of image quality, controllability features, and identity-shape trade-offs in multimodal diffusion models.
 
 The following grid demonstrates the effect of `rome_scale` (identity preservation) and `shape_scale` (structural deformation control) on the final generated caricature.
