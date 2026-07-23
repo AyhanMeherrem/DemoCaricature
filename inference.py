@@ -25,7 +25,8 @@ handler.load_explicit_rome("identities/Barack_Obama", token="<ID>")
 sketch = Image.open("assets/sketches/Barack_Obama.jpg").convert("L")  #grayscale
 sketch = ImageOps.invert(sketch)  #Moddel trained on black background 
 
-#generator = torch.Generator("cuda").manual_seed(100)
+generator = torch.Generator("cuda").manual_seed(100)
+
 #sample = handler(
 #    prompt="a caricature of <ID>",
 #    image=sketch,
@@ -38,7 +39,7 @@ sketch = ImageOps.invert(sketch)  #Moddel trained on black background
 #).images[0]
 #sample.save("Barack_Obama_caricature.jpg")
 
-# To understand shape-ident tradeoff we need to change them only while preserving others 
+# To understand shape-ident tradeoff we need to change them while preserving others 
 
 rome_scales = [0.8, 1.0, 1.2]
 shape_scales = [0.5, 0.8, 1.0]
