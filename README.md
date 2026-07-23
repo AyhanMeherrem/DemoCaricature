@@ -16,14 +16,11 @@ Official PyTorch Implementation of "DemoCaricature: Democratising Caricature Gen
 ### Environment
 `pip install -r requirements.txt`
 
-
 ### Weights
 Check pretrained identities in `./identities`! 
 
-
 ### Local Gradio Demo
 `python gradio_app.py`
-
 
 ### Diffusers Implementation
 ```python
@@ -33,7 +30,6 @@ from PIL import Image, ImageOps
 
 from handler import ExplicitROMEHandler
 from pipeline import TextualStableDiffusionAdapterWithTauPipeline
-
 
 model_name = "runwayml/stable-diffusion-v1-5"
 adapter_name = "TencentARC/t2iadapter_sketch_sd15v2"
@@ -71,3 +67,25 @@ sample.save("Barack_Obama_caricature.jpg")
     <img src="assets/sketches/Barack_Obama.jpg" width="300"/>
     <img src="assets/results/Barack_Obama.jpg" width="300"/>
 </p>
+
+---
+
+## Summer Research Project 2026: Inference Analysis
+**Researcher:** Ayhan Meherrem (s336322, Politecnico di Torino)
+**Context:** Independent evaluation of image quality, controllability features, and identity-shape trade-offs in multimodal diffusion models.
+
+The following grid demonstrates the effect of `rome_scale` (identity preservation) and `shape_scale` (structural deformation control) on the final generated caricature.
+
+| Rome Scale \ Shape Scale | Shape 0.5 | Shape 0.8 | Shape 1.0 |
+| :--- | :---: | :---: | :---: |
+| **Rome 0.8** | <img src="inference_output/output_rome0.8_shape0.5.png" width="200"> | <img src="inference_output/output_rome0.8_shape0.8.png" width="200"> | <img src="inference_output/output_rome0.8_shape1.0.png" width="200"> |
+| **Rome 1.0** | <img src="inference_output/output_rome1.0_shape0.5.png" width="200"> | <img src="inference_output/output_rome1.0_shape0.8.png" width="200"> | <img src="inference_output/output_rome1.0_shape1.0.png" width="200"> |
+| **Rome 1.2** | <img src="inference_output/output_rome1.2_shape0.5.png" width="200"> | <img src="inference_output/output_rome1.2_shape0.8.png" width="200"> | <img src="inference_output/output_rome1.2_shape1.0.png" width="200"> |
+
+### Analysis of the Identity-Shape Trade-off
+
+The generated grid demonstrates the practical limitations and structural artifacts present in the identity-shape trade-off during sketch-guided diffusion:
+
+* **Identity Failure (Rome 0.8):** At lower `rome_scale` values (0.8), the Explicit ROME Handler fails to inject sufficient identity features into the cross-attention layers. The output completely loses the likeness of the target identity, rendering the generated caricature unrecognizable regardless of the applied `shape_scale`.
+* **Conditioning Conflict and Artifacts (Rome 1.2, Shape 0.8):** Combining a high identity weight (`rome_scale=1.2`) with strong spatial conditioning (`shape_scale=0.8`) causes severe visual artifacts. The network fails to reconcile the dominant identity embeddings with the structural constraints of the T2I-Adapter. This mathematical conflict results in explicit conditioning vectors being rendered directly as unblended geometric lines across the facial structure.
+* **Operational Window:** The model exhibits a narrow effective operational window. Pushing either the identity preservation or the structural deformation to their extremes results in systemic generation failure, highlighting the instability of the current explicitly injected cross-attention mechanism under strong geometric constraints.
